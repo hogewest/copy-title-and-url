@@ -4,6 +4,6 @@ chrome.browserAction.onClicked.addListener(function(tab){
   t.value = tab.title + " " + tab.url;
   t.select();
   document.execCommand("copy");
-  document.body.removeChild(textArea);
+  document.body.removeChild(t);
 });
 
