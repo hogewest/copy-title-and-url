@@ -1,9 +1,11 @@
-chrome.browserAction.onClicked.addListener(function(tab){
-  var t = document.createElement("textarea");
-  document.body.appendChild(t);
-  t.value = tab.title + " " + tab.url;
-  t.select();
-  document.execCommand("copy");
-  document.body.removeChild(t);
+chrome.action.onClicked.addListener(function(tab){
+  chrome.tabs.query({ 'active': true, 'lastFocusedWindow': true }, tabs => {
+    const tab = tabs[0];
+    if (tab.url.startsWith('chrome://')) return;
+    chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      function: () => navigator.clipboard.writeText(`${document.title} ${location.href}`)
+    });
+  });
 });
 
